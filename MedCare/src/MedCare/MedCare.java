@@ -15,11 +15,21 @@ import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Properties;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,6 +42,7 @@ public class MedCare extends javax.swing.JFrame {
      */
     public MedCare() {
         initComponents();
+        setLocationRelativeTo(this);
         
         Cargar();
     }
@@ -45,6 +56,13 @@ public class MedCare extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jd_Enviar = new javax.swing.JDialog();
+        jl_Correo_Doctor = new javax.swing.JLabel();
+        jl_titulo_Doctor = new javax.swing.JLabel();
+        jl_Password_Doctor = new javax.swing.JLabel();
+        jb_Enviar_Doctor = new javax.swing.JButton();
+        jtf_Correo_Doctor = new javax.swing.JTextField();
+        jtf_Password_Doctor = new javax.swing.JPasswordField();
         jl_Nombre_Paciente = new javax.swing.JLabel();
         jtf_Nombre_Paciente = new javax.swing.JTextField();
         jl_Apellido_Paciente = new javax.swing.JLabel();
@@ -71,6 +89,63 @@ public class MedCare extends javax.swing.JFrame {
         jl_ImagenMedicamento_Paciente = new javax.swing.JLabel();
         jl_Correo_Paciente = new javax.swing.JLabel();
         jtf_Correo_Paciente = new javax.swing.JTextField();
+
+        jd_Enviar.setTitle("SEND MESSAGE");
+
+        jl_Correo_Doctor.setText("Correo electronico");
+
+        jl_titulo_Doctor.setText("Doctor Asignado");
+
+        jl_Password_Doctor.setText("Contraseña");
+
+        jb_Enviar_Doctor.setText("Enviar");
+        jb_Enviar_Doctor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_Enviar_DoctorMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jd_EnviarLayout = new javax.swing.GroupLayout(jd_Enviar.getContentPane());
+        jd_Enviar.getContentPane().setLayout(jd_EnviarLayout);
+        jd_EnviarLayout.setHorizontalGroup(
+            jd_EnviarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_EnviarLayout.createSequentialGroup()
+                .addGroup(jd_EnviarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_EnviarLayout.createSequentialGroup()
+                        .addGap(136, 136, 136)
+                        .addComponent(jl_titulo_Doctor))
+                    .addGroup(jd_EnviarLayout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addGroup(jd_EnviarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jl_Correo_Doctor)
+                            .addComponent(jl_Password_Doctor))
+                        .addGap(48, 48, 48)
+                        .addGroup(jd_EnviarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtf_Correo_Doctor)
+                            .addComponent(jtf_Password_Doctor))))
+                .addContainerGap())
+            .addGroup(jd_EnviarLayout.createSequentialGroup()
+                .addGap(165, 165, 165)
+                .addComponent(jb_Enviar_Doctor)
+                .addContainerGap(168, Short.MAX_VALUE))
+        );
+        jd_EnviarLayout.setVerticalGroup(
+            jd_EnviarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_EnviarLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jl_titulo_Doctor)
+                .addGap(26, 26, 26)
+                .addGroup(jd_EnviarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jl_Correo_Doctor)
+                    .addComponent(jtf_Correo_Doctor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addGroup(jd_EnviarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jl_Password_Doctor)
+                    .addComponent(jtf_Password_Doctor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addComponent(jb_Enviar_Doctor)
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MedCare");
@@ -220,7 +295,7 @@ public class MedCare extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jl_Correo_Paciente)
                             .addComponent(jtf_Correo_Paciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                        .addGap(41, 41, 41)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
@@ -231,13 +306,13 @@ public class MedCare extends javax.swing.JFrame {
                                 .addComponent(jtf_Peso_Paciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jtf_Altura_Paciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(42, 42, 42)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
                                 .addComponent(jl_DrAsignado_Paciente))
                             .addComponent(jtf_DrAsignado_Paciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGap(17, 17, 17)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
@@ -288,11 +363,11 @@ public class MedCare extends javax.swing.JFrame {
         String ID, Nombre, Apellido, Correo, DrAsignado, Medicamento, Fecha;
         int Edad, RangoHoras;
         double Peso, Altura;
-        
+
         Date FechaTemp = jdc_FechaFinal_Paciente.getDate();
         SimpleDateFormat Formato = new SimpleDateFormat("dd/MM/yyyy");
         Fecha = Formato.format(FechaTemp);
-       
+
         ID = jtf_ID_Paciente.getText();
         Nombre = jtf_Nombre_Paciente.getText();
         Apellido = jtf_Apellido_Paciente.getText();
@@ -303,11 +378,11 @@ public class MedCare extends javax.swing.JFrame {
         RangoHoras = Integer.parseInt(jsp_Rango_Paciente.getValue().toString());
         Peso = Double.parseDouble(jtf_Peso_Paciente.getText());
         Altura = Double.parseDouble(jtf_Altura_Paciente.getText());
-        
+
         Paciente NuevoPaciente = new Paciente(Nombre, Apellido, Edad, ID, Correo, Peso, Altura, Medicamento, Peso, Fecha, DrAsignado, RutaImagen);
         Pacientes.add(NuevoPaciente);
         jcb_Paciente.addItem(NuevoPaciente);
-        
+
         jtf_ID_Paciente.setText("");
         jtf_Nombre_Paciente.setText("");
         jtf_Apellido_Paciente.setText("");
@@ -318,14 +393,32 @@ public class MedCare extends javax.swing.JFrame {
         jsp_Rango_Paciente.setValue(0);
         jtf_Peso_Paciente.setText("");
         jtf_Altura_Paciente.setText("");
-        
+
         JOptionPane.showMessageDialog(this, "Paciente agreagado exitosamente", "OPERACION EXITOSA", JOptionPane.INFORMATION_MESSAGE);
+
+        jd_Enviar.setModal(true);
+        jd_Enviar.pack();
+        jd_Enviar.setLocationRelativeTo(this);
+        jd_Enviar.setVisible(true);
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         Guardar();
     }//GEN-LAST:event_formWindowClosing
+
+    private void jb_Enviar_DoctorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_Enviar_DoctorMouseClicked
+        // TODO add your handling code here:
+        Username = jtf_Correo_Doctor.getText();
+        Password = jtf_Password_Doctor.getText();
+
+        To = Pacientes.get(Pacientes.size() - 1).getCorreo();
+        Subject = "Recordatorio Medicamentos";
+        Mensaje = "Tomar " + Pacientes.get(Pacientes.size() - 1).getMedicamento() + " cada " + Pacientes.get(Pacientes.size() - 1).getRango() + " horas " + " hasta "
+                + Pacientes.get(Pacientes.size() - 1).getFechaFinal();
+
+        SendMail();
+    }//GEN-LAST:event_jb_Enviar_DoctorMouseClicked
 
     /**
      * @param args the command line arguments
@@ -365,10 +458,13 @@ public class MedCare extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jb_Enviar_Doctor;
     private javax.swing.JComboBox<Paciente> jcb_Paciente;
+    private javax.swing.JDialog jd_Enviar;
     private com.toedter.calendar.JDateChooser jdc_FechaFinal_Paciente;
     private javax.swing.JLabel jl_Altura_Paciente;
     private javax.swing.JLabel jl_Apellido_Paciente;
+    private javax.swing.JLabel jl_Correo_Doctor;
     private javax.swing.JLabel jl_Correo_Paciente;
     private javax.swing.JLabel jl_DrAsignado_Paciente;
     private javax.swing.JLabel jl_Edad_Paciente;
@@ -378,23 +474,27 @@ public class MedCare extends javax.swing.JFrame {
     private javax.swing.JLabel jl_ListaPacientes_Paciente;
     private javax.swing.JLabel jl_Medicamento_Paciente;
     private javax.swing.JLabel jl_Nombre_Paciente;
+    private javax.swing.JLabel jl_Password_Doctor;
     private javax.swing.JLabel jl_Peso_Paciente;
     private javax.swing.JLabel jl_Rango_Paciente;
+    private javax.swing.JLabel jl_titulo_Doctor;
     private javax.swing.JSpinner jsp_Rango_Paciente;
     private javax.swing.JTextField jtf_Altura_Paciente;
     private javax.swing.JTextField jtf_Apellido_Paciente;
+    private javax.swing.JTextField jtf_Correo_Doctor;
     private javax.swing.JTextField jtf_Correo_Paciente;
     private javax.swing.JTextField jtf_DrAsignado_Paciente;
     private javax.swing.JTextField jtf_Edad_Paciente;
     private javax.swing.JTextField jtf_ID_Paciente;
     private javax.swing.JTextField jtf_Medicamento_Paciente;
     private javax.swing.JTextField jtf_Nombre_Paciente;
+    private javax.swing.JPasswordField jtf_Password_Doctor;
     private javax.swing.JTextField jtf_Peso_Paciente;
     // End of variables declaration//GEN-END:variables
-    String RutaImagen = "";
+    String RutaImagen = "", Username = "", Password = "", To = "", Subject = "", Mensaje = "";
     ArrayList<Paciente> Pacientes = new ArrayList();
-    
-    public void Guardar(){
+
+    public void Guardar() {
         try {
             File archivo = null;
             try {
@@ -414,8 +514,8 @@ public class MedCare extends javax.swing.JFrame {
                     "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    public void Cargar(){
+
+    public void Cargar() {
         try {
             File archivo = null;
             try {
@@ -436,6 +536,37 @@ public class MedCare extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "No se cargo el archivo",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void SendMail() {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(Username, Password);
+            }
+        });
+
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(Username));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(To));
+            message.setSubject(Subject);
+            message.setText(Mensaje);
+
+            Transport.send(message);
+            JOptionPane.showMessageDialog(this, "Su mensaje ha sido enviado", "OPERACION EXITOSA", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
         }
     }
 }

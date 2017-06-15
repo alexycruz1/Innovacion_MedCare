@@ -5,11 +5,13 @@
  */
 package MedCare;
 
+import java.io.Serializable;
+
 /**
  *
  * @author xyto_
  */
-public class Paciente {
+public class Paciente implements Serializable{
     String Nombre;
     String Apellido;
     int Edad;
